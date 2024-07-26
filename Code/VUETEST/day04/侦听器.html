@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        x = {{x}}<br>
+        y = {{y}}<br>
+        doublex = {{doublex}}<br>
+        count = {{obj.count}}<br>
+        <button type="button" @click="autoAdd">自增</button>
+        <button type="button" @click="autoAddy">y自增</button>
+        <button type="button" @click="autoAddc">count自增</button>
+    </div>
+
+    <!-- watch默认监听一层，属于浅监听；Vue底层是能监听很多层的
+        每次在响应式数据发生变化的时候进行回调 
+        只能监听响应式数据
+    -->
+    <script>
+        const {createApp,ref,watch,reactive}=Vue;
+        const app=createApp({
+            setup(){
+                let x = ref(1)
+                let y = ref(1)
+                let doublex = ref(0)
+                const obj = reactive({
+                    count:0
+                })
+                const obj2=reactive({obj})
+                const autoAdd = () => {
+                    x.value++
+                }
+                const autoAddy = () => {
+                    y.value++
+                }
+                const autoAddc = () => {
+                    obj.count++
+                    console.log(obj.count)
+                }
+                //watch可以带三个参，数据源、监听触发的回调函数和对象表示的其它特性(包含深度监视和是否立即监听)
+                watch(x,(newValue)=>{
+                    //监听使x数据源发生改变的原因
+                    console.log(`newValue is ${newValue}`)
+                    // console.log(`oldValue is ${oldValue}`)
+                    doublex.value = 2 * x.value
+                },{immediate:true})
+
+                //侦听getter函数返回结果值，结果值发生改变就会触发侦听回调函数
+                //不写箭头函数就只是个静态结果
+                watch(() => x.value + y.value,(sum) => {
+                    console.log(`sum of x + y is ${sum}`)
+                })
+
+                //多个来源组成的数组，数组中任何数据发生变化都会触发侦听回调函数
+                watch([x,() => y.value],(newX,newY)=>{
+                    console.log(`x is ${newX} and y is ${newY}`)
+                })
+                
+                //watch不能直接侦听对象的属性
+
+                //错误写法
+                // watch(obj.count,(count)=>{
+                //     console.log(`count is ${count.count}`)
+                // })
+
+                //正确写法
+                watch(()=>obj.count,(count,cou)=>{
+                    console.log(`count is ${count} ${cou}`)
+                })
+
+                /*即使 obj 内部的 count 属性发生了变化，obj2.obj 的引用本身并没有改变。
+                因此，watch 回调中的 newValue 和 oldValue 仍然是相同的引用。*/
+                watch(()=>obj2.obj,(newValue,oldValue)=>{
+                    console.log("a",newValue.count)
+                    console.log("b",oldValue.count)
+                    console.log(oldValue === newValue)
+                },{deep:true})
+
+                return{
+                    x,
+                    y,
+                    doublex,
+                    obj,
+                    obj2,
+                    autoAdd,
+                    autoAddy,
+                    autoAddc
+                }
+            }
+        })
+        app.mount("#app")
+    </script>
+</body>
+</html>

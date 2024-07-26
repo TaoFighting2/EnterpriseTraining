@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div>cat的name是{{cat.name}}</div>
+        <div>cat的age是{{cat.age}}</div>
+        <div>cat的desc{{cat.desc}}</div>
+    </div>
+
+    <script>
+        const {createApp,ref}=Vue;
+        const app=createApp({
+            setup(){
+                const cat=ref({name: "罗小黑",age: 18,desc: "是一只黑色的猫"})
+                return{
+                    cat
+                }
+            }
+        })
+        app.mount("#app")
+    </script>
+</body>
+</html>

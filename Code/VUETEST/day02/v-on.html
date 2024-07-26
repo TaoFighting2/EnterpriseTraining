@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <!-- reactive改行，其它的不行 -->
+    <!-- ref底层用的也是reactive，增加了许多新的功能 -->
+    <div id="app">
+        <div>{{message}}</div>
+        <div>{{obj.name}}</div>
+        <input type="button" value="按钮" v-on:click="method1()" />
+        <button type="button" @click="method2('参数')">按钮</button>
+        <button type="button" @click="method3('有返回值')">按钮</button>
+        <button type="button" @click.once="method4()">按钮</button>
+    </div>
+
+    <script>
+        const {createApp,ref,reactive}=Vue;
+        const app=createApp({
+            setup(){
+                let message=ref("你好")//响应式引用的对象，具有一个名为value的值
+                const obj=reactive({id:1,name:"张三"})//返回响应式代理,追踪的是对象的属性
+                const obj1=ref({id:1,name:"张三"})
+                const arr=reactive([{
+                    name:"jyt",
+                    age:21
+                },{
+                    name:"jhl",
+                    age:14
+                }])
+                const method1=()=>{
+                    console.log(message)
+                    console.log(obj1)
+                    console.log(message.value)
+                    console.log(obj.name)
+                    console.log(obj1.value.name)
+                }
+                const method2=param=>{
+                    console.log("mothed有参")
+                    console.log(param)
+                    obj.name=arr[0].name
+                }
+                const method3=param=>{
+                    console.log("mothed有返回值")
+                    console.log(param)
+                    console.log(`method3${param}`)
+                    return "success"
+                }
+                const method4=()=>{
+                    method2()
+                    console.log(`执行函数mothod2成功`)
+                    console.log(arr)
+                    debugger;
+                    arr[0].name="蒋永涛"
+                    arr[1]="蒋鸿俐"//会把整个替换
+                    
+                }
+                return {//注册
+                    message,
+                    obj,
+                    method1,
+                    method2,
+                    method3,
+                    method4,
+                    arr
+                }
+            }
+        })
+        app.mount("#app")
+    </script>
+</body>
+</html>

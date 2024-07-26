@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 用于引入就不能再写代码了 -->
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <!-- 显示数据层 -->
+     <!-- 
+        区分js表达式和js代码（语句）
+            1）x
+            2）x + y
+            3) x(1)
+            4)x == y ? 'a' : 'b'   （===，必须保证值和数据类型均相等）
+        js语句：
+            1）if
+            2）for(){}
+     -->
+    <div id="app">
+        {{message}}
+    </div>
+
+    <!-- 数据层 -->
+    <script>
+        //获取Vue对象的createApp和ref函数（用于获取响应式的值）：用来存储和访问响应式数据的值
+        const {createApp,ref}=Vue;
+       //执行createApp函数返回app对象
+        const app=createApp({
+             //setup是Vue的声明周期钩子函数，执行时机：开始创建组件之前，创建的是数据和函数对象
+            setup(){
+                //定义数据，ref()函数返回响应式数据对象
+                const message=ref("hello vue");
+                //通过return返回对象，把定义的数据或函数暴露
+                return{
+                    message
+                }
+            }
+        })
+        //绑定一个以及存在的DOM元素作为app对象挂载目标
+        app.mount("#app")
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="text" ref="myInput" /><br>
+        <ul>
+            <li v-for="item in list" ref="itemRefs">
+                {{item}}
+            </li>
+        </ul>
+    </div>
+    <script>
+        const {createApp,ref,onMounted}=Vue
+        const app = createApp({
+            setup(){
+                //声明一个ref来存放该元素的引用
+                //必须和模板里的ref同名
+                //ref是特殊的dom，可以拿到底层的dom对象中的元素
+                //类似与getItemById函数
+                let myInput = ref(null)
+                let itemRefs = ref([])
+                const list = ref([10,20,30])
+                let myTable = ref([])
+
+                onMounted(()=>{
+                    console.log(myInput)
+                    console.log(myInput.value)//模板中的标签
+                    console.log(myInput.value.value)//模板中标签的值
+                    myInput.value.value = "123456"
+                    console.log("---------------------------------")
+                    console.log(itemRefs.value)
+                    console.log(itemRefs.value[0])
+                    console.log("---------------------------------")
+                    console.log(myTable)
+                    console.log(myTable.value)
+                })
+
+                return{
+                    myInput,
+                    itemRefs,
+                    list
+                }
+            }
+        })
+        app.mount("#app")
+    </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //ES6
+        function a(name="zhang san",age=10){
+            console.log(name+" "+age);
+        }
+        //old
+        function b(name,age){
+            name=name || "zhangsan";
+            age=age || 10;
+            console.log(name+" "+age);
+        }
+        a();
+        a("jyt",19)
+        b();
+        b("jyt",19)
+    </script>
+    <!-- 箭头函数 -->
+    <script>
+        //常规函数写法
+        let sum=function(x,y){
+            return x+y;
+        }
+        sum(5,6)
+        //箭头函数写法
+        let sum1 = (x,y) => {
+            return x+y;
+        }
+        //简写一个参数，无参或多参需要将括号带着
+        let sum2= x => x+x
+    </script>
+    <!-- 对象属性的缩写 -->
+    <script>
+        //在ES6中允许外面在设置一个对象的属性（函数）的时候不知属性名（函数名0
+        //当对象属性（函数）名称和外部变量（函数）名称相同时，可以省略属性名的重复书写
+        //数据值
+        const name="jyt"
+        const age=16
+        const city="天津"
+        //构建一个对象
+        const student ={
+            name:name,
+            age:age,
+            city:city,
+            show:function(){
+                console.log(9)
+            }
+        }
+        //ES6
+        const student1 ={
+            name,
+            age,
+            city,
+            show(){
+                console.log(9)
+            }
+        }
+        console.log(student)
+        console.log("@",student1)
+        student1.show()
+    </script>
+
+    <!-- 模板字符串 -->
+    <script>
+        //ES6中用反引号``来凭借字符串。使用${}来包含变量
+        let first="张"
+        let second="三"
+        let fullname=`你的名字：${first}-${second}`
+        console.log(fullname)
+    </script>
+</body>
+</html>

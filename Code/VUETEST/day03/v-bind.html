@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <style>
+        .normal{
+            height:100px;
+            width:200px;
+            border:1px solid black;
+        }
+        .happy{
+            border:3px dashed yellow;
+        }
+        .sad{
+            background-color: skyblue;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 一个标签可以有多个指令 -->
+        <p v-bind:id="pid">使用v-bind实现属性数据绑定</p>
+        <p :id="pid">使用v-bind实现属性数据绑定（简写形式）</p>
+
+        <!-- 绑定样式和v-bind的结合 -->
+        <div class="normal" :class="{happy:active,sad:bgcolor}">绑定class，对象形式</div><br>
+        <div class="normal" :class="[active ? 'happy':'',bgcolor ? 'sad':'']">绑定class，数组形式</div>
+        <!-- 驼峰或者加上引号解决-报错问题 -->
+        <div class="normal" :style="{color:font,fontSize:size}">绑定内联样式</div>
+        <div class="normal" :style="styleObj">绑定内联样式,样式对象形式</div>
+    </div>
+
+    <script>
+        const {createApp,ref,reactive}=Vue;
+        const app=createApp({
+            setup(){
+                const pid=ref('abc')
+                const active=ref(true)
+                const bgcolor=ref(true)
+                const font=ref('red')
+                const size=ref("30px")
+                const styleObj=reactive({color:"purple",fontSize:size.value})
+                return{
+                    pid,
+                    active,
+                    bgcolor,
+                    font,
+                    size,
+                    styleObj
+                }
+            }
+        })
+        app.mount("#app")
+    </script>
+</body>
+</html>

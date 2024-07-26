@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <!-- <style>
+        td {
+          border: 2px double black;
+        }
+        table {
+            border: 2px dashed black;
+        }
+      </style> -->
+</head>
+<body>
+    <div id="app">
+       <ul>
+        <!-- :key给加唯一标识 -->
+            <li v-for="(item,index) in arr" :key="index">索引为{{index}},元素值为{{item}}</li>
+            <li v-for="item in arr" >元素值为{{item}}</li>
+            <li v-for="(item,index) in objs" :key="index">index为{{index}},id为{{item.id}},name为{{item.name}}</li>
+        </ul>
+        <table border="1" cellspacing="0" >
+            <tr>
+                <td>id</td>
+                <td>name</td>
+            </tr>
+            <tr v-for="item in objs" >
+                <td>{{item.id}}</td>
+                <td>{{item.name}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        const {createApp,ref,reactive}=Vue;
+        const app=createApp({
+            setup(){
+                const arr=ref(['a','b','c'])
+                const objs=ref([
+                    {id:1,name:'A'},
+                    {id:2,name:'B'},
+                    {id:3,name:'C'},
+                ])
+                return{
+                    arr,
+                    objs
+                }
+            }
+        })
+        app.mount("#app")
+    </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div>{{message}}</div>
+        <button type="button" v-on:click="method()">修改</button>
+    </div>
+    <script>
+        const {createApp,ref,reactive}=Vue;
+        const app=createApp({
+            setup(){
+                const message=reactive(["jyt","jhl"])
+                const 
+            }
+        })
+    </script>
+</body>
+</html>

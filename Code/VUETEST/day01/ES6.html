@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var x=1
+        {
+            var y=2//块级作用域声明变量可以在外侧访问，块级作用域对var无约束
+            let z=3//只在块中起作用，块级作用域和函数里将let变局部变量
+        }
+        console.log(x);
+        console.log(y);
+        // console.log(z)
+
+        var i=7;
+        for(var i=0;i<10;i++){
+            //循环的变量还是在原来的作用域下
+        }
+        console.log(i);
+        var i=7;
+        for(let i=0;i<10;i++){
+            //let在此时变成局部的了，和函数中一样
+            //let声明，循环内可见
+        }
+        console.log(i);
+
+        //var声明的变量会提升到最顶端，可以先使用再声明；let定义的不会提升
+        fruits="apple";
+        console.log(fruits)
+        var fruits
+
+        //const定义的变量与let类似，const的独特之处在于它不能被重新赋值
+        //const必须声明的时候进行赋值
+    </script>
+</body>
+</html>
+

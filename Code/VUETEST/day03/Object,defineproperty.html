@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let number=19
+        let person = {
+            name:"张三",
+            sex:"男"
+        }
+        Object.defineProperty(person,'age',{
+            // value:19,
+            // enumerable:true,//控制属性是否可以被枚举
+            // writable:true,//控制是否可以被修改，默认false
+            // configurable:true//控制是否可以被删除，默认false
+
+            //number的修改永远在访问之前，就算是定值也无所谓
+            //如果有人读取person中的age属性，get函数就会被调用，返回值是age的值
+            get:function(){
+                console.log("有人在访问age")
+                return number
+            },
+            //person中的age属性
+            //如果有人修改person中的age属性，set函数就会被调用，并能接受修改的值
+            set(value){
+                console.log("有人正在修改person中的age属性，值为",value)
+                number=value
+            }
+        })
+        console.log(person)
+    </script>
+</body>
+</html>

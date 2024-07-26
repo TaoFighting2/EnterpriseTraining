@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <!-- 
+
+    -->
+    <div id="app">
+        message:{{msg}}<br>
+        <button type="button" @click="changeMsg">修改message</button>
+        <button type="button" @click="unmountApp">卸载app</button>
+    </div>
+    <script>
+        let jyt="蒋永涛"
+        const {createApp,onMounted,ref,onBeforeMount,onBeforeUpdate,
+                onUpdated,onBeforeUnmount,onUnmounted}=Vue
+        const app=createApp({
+            setup(){//注册
+
+                let msg=ref("hello")
+
+                const changeMsg = () => {
+                    msg.value="你好"+Date.now()
+                    console.log(`改变message的值`)
+                }
+
+                const unmountApp = () => {
+                    console.log(app)
+                    app.unmount()
+                }
+
+                onBeforeMount(()=>{
+                    console.log("组件挂载到节点上之前执行的函数")
+                    debugger;
+                })
+
+                onMounted(()=>{
+                    console.log(`the conponent is now mounted`)
+                    debugger;
+                })
+
+                onBeforeUpdate(()=>{
+                    console.log("组件更新之前执行的函数")
+                    debugger;
+                })
+
+                onUpdated(()=>{
+                    console.log("组件更新完成之后执行的函数")
+                    debugger;
+                })
+
+                onBeforeUnmount(()=>{
+                    console.log("组件卸载之前执行的函数")
+                    debugger;   
+                })
+
+                onUnmounted(()=>{
+                    console.log("组件卸载完成执行的函数")
+                })
+
+                return{
+                    msg,
+                    changeMsg,
+                    unmountApp
+                }
+            }
+        })
+        app.mount("#app")
+    </script>
+</body>
+</html>

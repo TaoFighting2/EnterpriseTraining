@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+
+    </div>
+    <script>
+        const {createApp,ref}=Vue;
+        const app=createApp({
+            setup(){
+                const name=["jyt","jhl","jjl"]
+                console.log(name)
+                const [n1,n2,n3]=name
+                console.log(n1,n2,n3)
+
+                //解构最后一个
+                const [,,n4]=name
+                console.log(n4)
+                const n5=name[2]
+                console.log(n5)
+
+                //从上解构一个元素放在新的数组中
+                //这里的...不是展开运算符，与函数的剩余参数比较相似
+                const [itema,...newName] = name
+                console.log(itema,newName)
+
+                //解构的默认值
+                const [n6,n7,n8,n9="aaa"] = name
+                console.log(n9)
+
+                const [,item,]=name
+                console.log("item=>",item)
+                
+                return{
+                    name
+                }
+            }
+        })
+        app.mount("#app")
+    </script>
+</body>
+</html>

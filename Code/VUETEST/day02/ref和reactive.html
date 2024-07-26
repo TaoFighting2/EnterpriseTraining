@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <!-- reactive改行，其它的不行 -->
+    <!-- ref底层用的也是reactive，增加了许多新的功能 -->
+    <div id="app">
+        <div>{{message}}</div>
+        <div>{{obj.name}}</div>
+        <!-- 按钮控件中无参函数可不加括号 -->
+        <input type="button" value="按钮1" v-on:click="btnClick1()" />
+        <div>reactivate的数据:{{reactivateObj.userName}}--{{reactivateObj.password}}</div>
+        <div>reactivate的数据:{{refObj.userName}}--{{refObj.password}}</div>
+        <button type="button" @click="btnClick2()">按钮2</button>
+
+        <ul>
+            <li v-for="item in reactiveArr">{{item}}</li>
+        </ul>
+        <ul>
+            <li v-for="item in refArr">{{item}}</li>
+        </ul>
+        <button type="button" @click="btnClick3()">按钮3</button>
+    </div>
+
+    <script>
+        const {createApp,ref,reactive}=Vue;
+        const app=createApp({
+            setup(){
+                let message=ref("你好")
+                const obj=reactive({id:1,name:"张三"})//只适用于复杂类型，只有修改的时候会触发响应式
+                const reactivateObj=reactive({userName:"张三",password:"123456"})
+                const refObj=ref({userName:"李四",password:"654321"})
+                const btnClick1=()=>{
+                    
+                }
+                const btnClick2=()=>{
+                    //可响应
+                    // reactivateObj.userName="蒋永涛"
+                    // refObj.value.userName="蒋鸿俐"
+                    
+                    // reactivateObj={userName:"jyt",password:"123456"},不行
+                    refObj.value={userName:"jhl",password:"654321"}
+                }
+                
+                let reactiveArr=reactive(['a','b','c'])
+                let refArr=ref(['d','e','f'])
+                const btnClick3=()=>{
+                    reactiveArr.push("q")
+                    refArr.value.push("w")
+                    // reactiveArr=["tom","jerry","jake"]
+                    refArr.value=["zhangsan","lisi","wangwu"]
+                }
+
+
+                return {
+                    message,
+                    obj,
+                    reactivateObj,
+                    refObj,
+                    reactiveArr,
+                    refArr,
+                    btnClick1,
+                    btnClick2,
+                    btnClick3,
+                }
+            }
+        })
+        app.mount("#app")
+    </script>
+</body>
+</html>

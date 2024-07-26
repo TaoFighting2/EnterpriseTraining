@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 1.单向绑定 双大括号语法插入表达式 -->
+        <p>单向绑定：{{message}}</p>
+        <!-- v-html指令，插入HTML代码,写虽然在属性中，但是会解析html代码的 -->
+        <!-- v-html一定不要应用在用户输入的表单中 -->
+         <!-- 指令会完全替换标签里的内容 -->
+        <p>使用v-html指令插入HTML代码：<span v-html="rawHtml"></span></p>
+        <!-- v-text指令，插入文本 -->
+        <p>使用v-text指令插入文本：<span v-text="rawHtml"></span></p>
+        <!-- v-once指令，表示数据只绑定一次,指示作用 -->
+        <p v-once>v-once指令：{{message}}</p>
+    </div>
+
+    <script>
+        const {createApp,ref}=Vue;
+        const app=createApp({
+            setup(){
+                const message=ref("hello vue");
+                const rawHtml=ref("<a href='http://www.baidu.com'>百度</a>")
+                return{
+                    message,
+                    rawHtml
+                }
+            }
+        })
+        app.mount("#app")
+    </script>
+</body>
+</html>

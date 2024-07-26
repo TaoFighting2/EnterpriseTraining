@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h2>人员列表</h2>
+        <input type="text" placeholder="请输入姓名" v-model="keyWord" />
+        <button type="button" @click="sortType = 1">年龄升序</button>
+        <button type="button" @click="sortType = 2">年龄降序</button>
+        <button type="button" @click="sortType = 0">年龄原顺序</button>
+        <ul>
+            <li v-for="item in filPerson" :key="item.id">{{item.name}}--{{item.age}}</li>
+        </ul>
+    </div>
+    <script>
+        const {createApp,ref,reactive,computed,watch}=Vue
+        const app = createApp({
+            setup(){
+                let keyWord=ref("")
+                let sortType=ref(0)
+                const person = reactive([
+                    {id:1,name:"jyt",age:20},
+                    {id:2,name:"jhl",age:14},
+                    {id:3,name:"jjl",age:42},
+                    {id:4,name:"jql",age:41}
+                ])
+
+                let arr = []
+                const filPerson = ref([])
+
+                watch(keyWord,(newV)=>{
+                        filPerson.value = person.filter((p)=>{
+                            return p.name.includes(newV)
+                        })
+                        // Object.assign(arr,filPerson.value)
+                        arr = JSON.parse(JSON.stringify(filPerson.value))
+                },{immediate:true})
+
+                watch(sortType,(newS)=>{
+                    if(newS){
+                        filPerson.value.sort((p1,p2)=>{
+                            return newS===1 ? p1.age-p2.age : p2.age-p1.age
+                        })
+                    }else{
+                        Object.assign(filPerson.value,arr)
+                    }
+                },{immediate:true})
+
+                // watch([keyWord,()=>sortType.value],([newK,newT])=>{
+                //     filPerson.value=person.filter((p)=>{
+                //         return p.name.includes(newK)
+                //     })
+                //     if(newT){
+                //         filPerson.value.sort((p1,p2)=>{
+                //             return newT===1 ? p1.age-p2.age : p2.age-p1.age
+                //         })
+                //     }
+                // },{immediate:true})
+
+                // const filPerson = computed(()=>{
+                //     const FilPerson = person.filter((p)=>{
+                //         return p.name.includes(keyWord.value)
+                //     })
+                //     // console.log(sortType.value)
+                //     if(sortType.value){
+                //         FilPerson.sort((p1,p2)=>{
+                //             return sortType.value===1 ? p1.age-p2.age : p2.age-p1.age
+                //         })
+                //     }
+                //     return FilPerson
+                // })
+                return{
+                    person,filPerson,keyWord,sortType,arr
+                }
+            }
+        })
+        app.mount("#app")
+</script>
+</body>
+</html>

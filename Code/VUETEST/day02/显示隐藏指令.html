@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+
+    <div id="app">
+        <!-- 可以直接在引号里写表达式，也可以在后台传值 -->
+        <!-- v-if没有结构，会隐藏 -->
+        <!-- v-if和v-else之间不要有其它标签，会打断两者的关系 -->
+        <!-- v-if条件改变会重新渲染 -->
+       <div v-if="a">显示</div>
+       <p>123</p>
+       <div v-else>不显示</div>
+        <!-- 频繁切换条件去调整显示的话，v-show更好 -->
+        <!-- v-show底层借助的还是css中的display属性 -->
+        <div v-show="a">显示</div>
+
+       <div v-if="1 == 1">显示</div>
+
+       <div v-if="type == 'A'">A</div>
+       <div v-else-if="type == 'B'">B</div>
+       <div v-else-if="type == 'C'">C</div>
+       <div v-else>D</div>
+    </div>
+
+    <script>
+        const {createApp,ref}=Vue;
+        const app=createApp({
+            setup(){
+                const a=ref(false)
+                const type=ref('B')
+                return{
+                    a,
+                    type
+                }
+            }
+        })
+        app.mount("#app")
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        {{obj.name}}------{{name}}
+        <button type="button" @click="btn">按钮</button>
+    </div>
+    <!-- isRef检查变量是否被ref函数包裹，返回布尔值 -->
+    <!-- toRef定义原始非响应式数据，修改值时原始数据和被copy的数据值都发生改变，但是页面不变 -->
+    <!-- toRef定义原始响应式数据，修改值时原始数据和被copy的数据值都发生改变，页面也一起更新 -->
+    <script>
+        const {createApp,ref,isRef,reactive,toRef,toRefs}=Vue;
+        const app=createApp({
+            setup(){
+                const str = ref("abc")
+                const num = 1
+                const person = reactive({name:'李四',age:21})
+                const obj=reactive({
+                    name:"姓名",
+                    age:18
+                })
+                const name =toRef(obj,'name')
+                console.log('isRef(str)=>',isRef(str))//判断是否被ref包裹
+                console.log('isRef(num)=>',isRef(num))
+                console.log('isRef(person)=>',isRef(person))
+                const btn = ()=>{
+                    obj.name="王五"
+                    name.value="唐柳"
+                    console.log(obj)
+                    console.log(name)
+                }
+                return{
+                    str,
+                    num,
+                    person,
+                    obj,
+                    name,
+                    btn
+                }
+            }
+        })
+        app.mount("#app")
+    </script>
+</body>
+</html>

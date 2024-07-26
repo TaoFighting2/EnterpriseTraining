@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div>ref</div>
+        <ul>
+            <li v-for="item in refList">{{item}}</li>
+        </ul>
+        <div>reactiveList</div>
+        <ul>
+            <li v-for="item in reactiveList">{{item}}</li>
+        </ul>
+        <button type="button" @click="btn1">修改</button>
+        <button type="button" @click="btn2">添加</button>
+    </div>
+
+    <script>
+        const {createApp,ref,reactive}=Vue;
+        const app=createApp({
+            setup(){
+                const refList=ref([
+                    {id:1,name:'向日葵',ctime:new Date()},
+                    {id:2,name:'非洲菊',ctime:new Date()}
+                ])
+                const reactiveList=reactive([
+                    {id:1,name:'向日葵',ctime:new Date()},
+                    {id:2,name:'非洲菊',ctime:new Date()}
+                ])
+                const btn1=()=>{
+                    for(let i=0;i<=1;i++){
+                        refList.value[i].name=refList.value[i].name+"1"
+                        reactiveList[i].name=reactiveList[i].name+"1"
+                        refList.value[i].ctime=refList.value[i].ctime.getFullYear()+" "+('0' + (refList.value[i].ctime.getMonth() + 1)).slice(-2); 
+                        reactiveList[i].ctime=reactiveList[i].ctime.getFullYear()+" "+('0' + (reactiveList[i].ctime.getMonth() + 1)).slice(-2);
+                    }
+                }
+                const btn2=()=>{
+                    for(let i=0;i<=1;i++){
+                        refList.value[i]=add(refList.value[i])
+                        reactiveList[i]=add(reactiveList[i])
+                    }
+                }
+                const add=(obj)=>{
+                    var arr=[]
+                    for(let i in obj){
+                        let j={}
+                        j[i]=obj[i]
+                        arr.push(j)
+                    }
+                    if(!obj.hasOwnProperty("type")){
+                        arr.splice(1,0, { "type": "菊科植物" })
+                    }
+                    var result={}
+                    arr.forEach((item)=>{
+                        result[Object.keys(item)[0]]=Object.values(item)[0]
+                    })
+                    return result
+                }
+                return{
+                    refList,
+                    reactiveList,
+                    btn1,
+                    btn2
+                }
+            }
+        })
+        app.mount("#app")
+    </script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 计算属性有缓存机制，不会重复被调用；函数每次都要调用 -->
+        <p>{{fullName}}</p>
+        <!-- <p>{{fullName}}</p> -->
+        <p>{{myFullName}}</p>
+        <button type="button" @click="update">修改</button>
+    </div>
+
+    <script>
+        const {createApp,ref,computed}=Vue;
+        const app=createApp({
+            setup(){
+                const firstName = ref("zhang")
+                const secondName = ref("san")
+                //计算属性
+                const fullName = computed(()=>{
+                    console.log("computed执行")
+                    return firstName.value + ' ' + secondName.value
+                })
+                //计算属性的setter和getter
+                const myFullName = computed({
+                    // getter
+                    get() {
+                        console.log("getter执行")
+                        return firstName.value + ' ' + secondName.value
+                    },
+                    // setter
+                    set(newValue) {
+                        // console.log("setter执行")
+                        // 注意：我们这里使用的是解构赋值语法
+                        [firstName.value, secondName.value] = newValue.split(' ')
+                        // const arr=newValue.split(' ')
+                        // firstName.value=arr[0]
+                        // secondName.value=arr[1]
+                    }
+                })
+                const update= ()=>{
+                    // firstName.value="李"
+                    // console.log(myFullName.value)
+                    myFullName.value="赵 六"
+            
+                }
+                return{
+                    firstName,
+                    secondName,
+                    fullName,
+                    myFullName,
+                    update
+                }
+            }
+        })
+        app.mount("#app")
+    </script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h2>人员列表</h2>
+        <input type="text" placeholder="请输入姓名" v-model="name" />
+        <button type="button" @click="sortType=1">年龄升序</button>
+        <button type="button" @click="sortType=2">年龄降序</button>
+        <button type="button" @click="sortType=0">年龄原顺序</button>
+        <ul >
+            <li v-for="item in filPerson" :key="item.id" >
+                name={{item.name}} ,age={{item.age}} ,sex={{item.sex}}
+            </li>
+        </ul>
+
+    </div>
+    <script>
+        const {createApp,ref,onMounted,reactive,watch,computed}=Vue
+        const app = createApp({
+            setup(){
+                let name = ref('')
+                let sortType = ref(0)
+                
+                const person = reactive([
+                    {id:"001",name:"马冬梅",age:18,sex:"女"},
+                    {id:"002",name:"周杰伦",age:26,sex:"男"},
+                    {id:"003",name:"周冬雨",age:10,sex:"女"},
+                    {id:"004",name:"温兆伦",age:18,sex:"男"}
+                ])
+
+                const filPerson = ref([])//?
+                watch([name,()=>sortType.value],([newValue,newSortType]) => {
+                    filPerson.value = person.filter((p)=>{
+                        return p.name.includes(newValue)
+                    })
+                    if(newSortType){
+                        filPerson.value.sort((a,b)=>{
+                            return sortType.value===2 ? b.age-a.age : a.age-b.age
+                        })
+                    }
+                  
+                },{immediate:true})
+
+                
+
+                // const name= computed({
+                //     // getter
+                //     get() {
+                //         console.log("name.value",name)
+                //         return name.value
+                //     },
+                //     // setter
+                //     set(newValue) {
+                //         console.log()
+                //         // name=newValue
+                //         Person.value=newValue
+                //     }
+                // })
+                // const Person = computed({
+                //     // getter
+                //     get() {
+                //         console.log("getter执行")
+                //         console.log(filPerson.value)
+                //         return filPerson.value
+                //     },
+                //     // setter
+                //     set(newValue) {
+                //         // console.log("setter执行")
+                //         // 注意：我们这里使用的是解构赋值语法
+                //         // [firstName.value, secondName.value] = newValue.split(' ')
+                //         // const arr=newValue.split(' ')
+                //         // firstName.value=arr[0]
+                //         // secondName.value=arr[1]
+                //         filPerson.value=person.filter((p)=>{
+                //             console.log(p.name.includes(newValue))
+                //             return p.name.includes(newValue)
+                //         })
+                //     }
+                // })
+
+
+                const CfilPerson=computed(()=>{
+                        const FilPerson = person.filter((p)=>{
+                        return p.name.includes(name.value)
+                    })
+                    if(sortType.value){
+                        FilPerson.sort((a,b)=>{
+                            return sortType.value===1 ? b.age-a.age : a.age-b.age
+                        })
+                    }
+                    return FilPerson
+                })
+                return{
+                    person,name,CfilPerson,sortType,filPerson
+                }
+            }
+        })
+        app.mount("#app")
+    </script>
+</body>
+</html>

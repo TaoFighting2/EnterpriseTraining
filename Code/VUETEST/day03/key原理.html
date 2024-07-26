@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h2>人员列表</h2>
+        <button @click.once="add">添加一个赵六</button>
+        <ul>
+        <!-- :key给加唯一标识 -->
+         <!-- 
+            Vue中key有什么作用（虚拟dom中key的作用）
+                key是虚拟dom对象的标识，当状态中的数据发生改变时，Vue会根据key修改新数据
+         -->
+            <li v-for="(item,index) in objs" :key="item.id">{{item.id}}--{{item.name}}
+                <input type="text" />
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        const {createApp,ref,reactive}=Vue;
+        const app=createApp({
+            setup(){
+                const objs=ref([
+                    {id:2,name:'A',age:13},
+                    {id:1,name:'B',age:15},
+                    {id:3,name:'C',age:14},
+                ])
+                const add= ()=>{
+                    const o={id:4,name:'zhaoliu',age:14}
+                    objs.value.unshift(o)
+                    console.log(objs)
+                }
+                return{
+                    objs,
+                    add
+                }
+            }
+        })
+        app.mount("#app")
+    </script>
+</body>
+</html>

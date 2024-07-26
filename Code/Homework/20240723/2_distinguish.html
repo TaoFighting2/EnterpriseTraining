@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div>双括号的效果是<span>默认值{{message}}</span></div>
+        <div>v-html的效果是<span v-html="message">默认值</span></div>
+        <div>v-text的效果是<span v-text="message">默认值</span></div>
+        <!-- <div>cat的age是{{cat.age}}</div>
+        <div>cat的desc{{cat.desc}}</div> -->
+    </div>
+
+    <script>
+        const {createApp,ref}=Vue;
+        const app=createApp({
+            setup(){
+                const message="<a href='http://www.baidu.com'>百度</a>"
+                return{
+                    message
+                }
+            }
+        })
+        app.mount("#app")
+    </script>
+</body>
+</html>

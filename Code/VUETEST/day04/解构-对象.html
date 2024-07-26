@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+
+    </div>
+
+    <script>
+        const {createApp,ref}=Vue;
+        const app=createApp({
+            setup(){
+                // const name=["jyt","jhl","jjl"]
+                // console.log(name)
+                
+                const obj={
+                    name:"tom",
+                    age:21,
+                    sex:"男"
+                }
+                //对象解构的无序性
+                let {age,sex,name}=obj
+                console.log(name,age,sex)
+                //给变量起新名字
+                let {name:newName}=obj
+                console.log(newName)
+                // 默认值
+                const {address = "天津"}=obj
+                console.log(address)
+                
+                const {sex:female = "女"} = obj
+                console.log(female)
+                return{
+                    name,
+                    obj
+                }
+            }
+        })
+        app.mount("#app")
+    </script>
+</body>
+</html>
