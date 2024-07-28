@@ -11,20 +11,14 @@ import HelloWorld from './components/HelloWorld.vue'
       <HelloWorld msg="You did it!" />
 
       <nav>
-        <!-- 后面被当作超链接解析 -->
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/parentA">parentA</RouterLink>
-        <a href="/Main">原生超链接main</a>
-        <RouterLink to="/Main">Main</RouterLink>
+        <RouterLink to="/parent">Parent</RouterLink>
         <RouterLink to="/message">Message</RouterLink>
-        <RouterLink to="/pageBtn/product">Product</RouterLink>
-        </nav>
+      </nav>
     </div>
   </header>
 
-  <!-- <RouterView /> -->
-  <!-- 路由对应组件显示，有几个RouterView就有几个显示区 -->
   <RouterView />
 </template>
 

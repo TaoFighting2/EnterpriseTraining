@@ -20,9 +20,11 @@
         {id:2,name:"家电2"},
         {id:3,name:"家电3"},
     ])
-    const myEmits = defineEmits(['itemClick'])
+    const myEmits = defineEmits(['itemClick','itemTest'])
     const btnClick = (Value) => {
         myEmits('itemClick',Value)
+        // myEmits('itemTest',"TaoFighting")
+        myEmits('itemTest',fenlei)
     }
 </script>
 

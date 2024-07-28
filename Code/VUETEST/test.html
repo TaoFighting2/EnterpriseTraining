@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="day01/js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <button type="button" @click="change">修改</button>
+    </div>
+    <script>
+        const {createApp,ref,watch,reactive}=Vue;
+        const app=createApp({
+            setup(){
+                let msg0 ="hello"
+                const msg=ref(msg0) 
+                const change = ()=>{
+                    msg0="success"
+                    console.log(msg0,"  ",msg.value)
+                }
+                return{ 
+                    msg,
+                    change
+                }
+            }
+        })
+        app.mount("#app")
+    </script>
+</body>
+</html>

@@ -1,8 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import MainView from '@/views/MainView.vue'
-import LoginView from '@/views/LoginView.vue'
-import RegisterView from '@/views/RegisterView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,37 +18,26 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },
     {
-      path:'/parentA',
-      name:'parentA',
-      component:() => import('../views/ParentViewA.vue')
-    },
-    {
-      path:'/Main',
-      name:'Main',
-      component:MainView
+      path:'/parent',
+      name:'parent',
+      component: () => import('../views/Parent.vue')
     },
     {
       path:'/message',
       name:'message',
-      component:()=> import('../views/Message.vue'),
-      children: [
+      component: () => import('../views/Message.vue'),
+      children:[
         {
-          // 嵌套路径一定要先写父路径再写子路径
           path:'/message/login',
           name:'login',
-          component:LoginView
+          component: () => import('../views/login.vue')
         },
         {
-          path:'/message/register/:name/:id',
+          path:'/message/register/:id/:name',
           name:'register',
-          component:RegisterView
+          component: () => import('../views/register.vue')
         }
       ]
-    },
-    {
-      path:'/pageBtn/product',
-      name:'product',
-      component:()=>import('../views/pageBtn/Product.vue')
     }
   ]
 })
