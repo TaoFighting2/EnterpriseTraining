@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!--    configuration 内部的子标签是有顺序的    -->
+<configuration>
+<!--    加载并解析db.properties配置文件（把配置内容读取到内存中并保存）   -->
+    <properties resource="db.properties"></properties>
+
+    <settings>
+        <!--mybatis日志输出控制台（例如执行的失去了语句和参数），控制台-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+<!--    自定义类型使用别名   -->
+    <typeAliases>
+<!--    typeAlias 表示 哪个类 使用哪个别名  大小写不区分    -->
+<!--        <typeAlias type="com.tjetc.entity.User" alias="user"></typeAlias>-->
+<!--        指定包下所有类都有别名         -->
+        <package name="com.tjetc.entity"/>
+    </typeAliases>
+    <!--环境,可以配置多个（开发环境dev 测试环境test 生产环境prod -->
+    <environments default="dev">
+        <environment id="dev">
+            <!--事务管理器(JDBC) -->
+            <transactionManager type="JDBC"></transactionManager>
+            <!--数据源配置（连接池）-->
+            <dataSource type="POOLED">
+<!--            ${配置的key的名称} 通过key获取对应的value值   -->
+                <!--mysql8的驱动-->
+                <property name="driver" value="${jdbc.driver}"/>
+                <!--链接数据库的url,注意&在xml中是特殊字符 需要转义 &amp; -->
+                <property name="url" value="${jdbc.url}"/>
+                <!--链接数据库的用户名和密码-->
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+<!--    映射文件    -->
+    <mappers>
+<!--        映射文件的位置（注意：映射文件所在的是目录，不是包，只有java类有包的概念）     -->
+        <mapper resource="com/tjetc/mapper/UserMapper.xml"></mapper>
+    </mappers>
+
+</configuration>
+

@@ -1,0 +1,98 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace的值是 对应的接口的包名称+接口名称-->
+<mapper namespace="com.tjetc.mapper.UserMapper">
+
+<!--    结果集映射(jdbc使用sql查询的结果集 与 实体类的属性的映射)-->
+    <resultMap id="baseMap" type="user">
+<!--        id标签表示主键和实体类映射-->
+<!--        column 表示结果集的列名称 property 表示实体类的属性名称-->
+        <id column="id" property="id"></id>
+<!--        result 表示非主键和实体类属性的映射-->
+        <result column="username" property="username"></result>
+        <result column="password" property="password"></result>
+        <result column="update_time" property="updateTime"></result>
+        <result column="create_time" property="createTime"></result>
+    </resultMap>
+
+<!--写四大标签 select update insert delete ，标签内不要写注释，sql语句后不要写; -->
+<!--    id值是接口的方法名称-->
+<!--    resultType表示数据库查询的结果集 对应的 实体类型-->
+<!--    <select id="selectAll" resultType="com.tjetc.entity.User">-->
+<!--        select * from t_user-->
+<!--    </select>-->
+    <select id="selectAll" resultMap="baseMap">
+        select * from t_user
+    </select>
+
+<!--parameterType 表示参数类型 #{参数名称} 用户参数占位-->
+<!--  parameterType可以不写，让其自己推断  -->
+    <select id="selectById" resultMap="baseMap" parameterType="Long" >
+        select * from t_user where id=#{id}
+    </select>
+
+<!--    insert插入成功后要获取自增主键值    -->
+<!--    useGeneratedKeys表示使用自增主键 keyProperty主键值给对应类的哪个属性名 keyColumn指定主键列   -->
+<!--    keyProperty="id" insert后自增主键的值，赋值给实体类的哪个属性-->
+<!--    因为insert方法传参数是一个实体类对象 所有参数#{实体类对象的属性名称}    -->
+<!--    反引号起标识作用，是为了避免和MySQL中的保留字冲突的    -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into t_user(username,`password`,update_time,create_time)
+        values(#{username},#{password},#{updateTime},#{createTime})
+    </insert>
+
+    <update id="update">
+        update t_user
+        SET `password`=#{password},
+        username=#{username},
+        update_time=#{updateTime}
+        where id=#{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE from t_user where id=#{id}
+    </delete>
+
+<!--    动态sql之 if标签 test=表达式，表达式结果要是boolean值；true表达式成立，就会拼接if标签内的sql语句内容-->
+<!--    username 和 password给值-->
+    <select id="selectByUsernameOrPassword" resultMap="baseMap">
+        select * from t_user where 1=1
+        <if test="username!=null and username!=''">
+            and username=#{username}
+        </if>
+        <if test="password!=null and password!=''">
+            and password=#{password}
+        </if>
+    </select>
+
+    <select id="selectByUsernameOrPassword2" resultMap="baseMap">
+        select * from t_user where 1=1
+        <choose>
+            <when test="username!=null and username!=''">
+                and username=#{username}
+            </when>
+            <when test="password!=null and password!=''">
+                and password=#{password}
+            </when>
+            <otherwise>
+                and 2=2
+            </otherwise>
+        </choose>
+    </select>
+
+<!--    where标签：1、当where有sql语句成立，sql语句后面就加上where关键字，-->
+<!--    2、where标签会忽略后面第一个and或者or的关键字-->
+    <select id="selectByUsernameOrPassword3" resultMap="baseMap">
+        select * from t_user
+        <where>
+            <if test="username!=null and username!=''">
+                and username=#{username}
+            </if>
+            <if test="password!=null and password!=''">
+                and password=#{password}
+            </if>
+        </where>
+    </select>
+</mapper>
